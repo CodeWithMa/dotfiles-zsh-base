@@ -1,0 +1,41 @@
+#!/bin/zsh
+
+# declare a simple plugin-load function
+function plugin-load() {
+  local repo plugin_name plugin_dir initfile initfiles
+  ZPLUGINDIR=${ZPLUGINDIR:-${ZDOTDIR:-$HOME/.config/zsh}/plugins}
+  for repo in $@; do
+    plugin_name=${repo:t}
+    plugin_dir=$ZPLUGINDIR/$plugin_name
+    initfile=$plugin_dir/$plugin_name.plugin.zsh
+    if [[ ! -d $plugin_dir ]]; then
+      echo "Cloning $repo"
+      git clone -q --depth 1 --recursive --shallow-submodules https://github.com/$repo $plugin_dir
+    fi
+    if [[ ! -e $initfile ]]; then
+      initfiles=($plugin_dir/*.plugin.{z,}sh(N) $plugin_dir/*.{z,}sh{-theme,}(N))
+      [[ ${#initfiles[@]} -gt 0 ]] || { echo >&2 "Plugin has no init file '$repo'." && continue }
+      ln -s "${initfiles[1]}" "$initfile"
+    fi
+    fpath+=$plugin_dir
+    (( $+functions[zsh-defer] )) && zsh-defer . $initfile || . $initfile
+  done
+}
+
+function plugin-update {
+  ZPLUGINDIR=${ZPLUGINDIR:-${ZDOTDIR:-$HOME/.config/zsh}/plugins}
+  for d in $ZPLUGINDIR/*/.git(/); do
+    echo "Updating ${d:h:t}..."
+    command git -C "${d:h}" pull --ff --recurse-submodules --depth 1 --rebase --autostash
+  done
+}
+
+# make a github repo plugins list
+plugins=(
+  molovo/tipz
+  zsh-users/zsh-autosuggestions
+  zsh-users/zsh-completions
+  zsh-users/zsh-history-substring-search
+  zsh-users/zsh-syntax-highlighting
+)
+plugin-load $plugins
