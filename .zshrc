@@ -1,12 +1,12 @@
 #!/bin/zsh
 
-source ./zsh/aliases.zsh
-source ./zsh/bindkeys.zsh
-source ./zsh/exports.zsh
-source ./zsh/history.zsh
-source ./zsh/plugins.zsh
-source ./zsh/zoxide.zsh
-source ./zsh/zsh-history-substring-search.zsh
-source ./zsh/zsh.zsh
+source ./.config/zsh/aliases.zsh
+source ./.config/zsh/bindkeys.zsh
+source ./.config/zsh/exports.zsh
+source ./.config/zsh/history.zsh
+source ./.config/zsh/plugins.zsh
+source ./.config/zsh/zoxide.zsh
+source ./.config/zsh/zsh-history-substring-search.zsh
+source ./.config/zsh/zsh.zsh
 
 eval "$(starship init zsh)"
