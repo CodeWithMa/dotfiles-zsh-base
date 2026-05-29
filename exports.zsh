@@ -9,6 +9,3 @@ export VISUAL=nvim
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
-
-# Set bat theme
-export BAT_THEME="dark-decay"
