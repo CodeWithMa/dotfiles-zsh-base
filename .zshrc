@@ -2,6 +2,7 @@
 
 source ./.config/zsh/aliases.zsh
 source ./.config/zsh/bindkeys.zsh
+source ./.config/zsh/config-update.zsh
 source ./.config/zsh/exports.zsh
 source ./.config/zsh/history.zsh
 source ./.config/zsh/plugins.zsh
