@@ -9,3 +9,5 @@ export VISUAL=nvim
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
+
+export SPICE_NOGRAB=1
