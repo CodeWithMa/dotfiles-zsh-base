@@ -6,6 +6,7 @@ source ./.config/zsh/config-update.zsh
 source ./.config/zsh/exports.zsh
 source ./.config/zsh/history.zsh
 source ./.config/zsh/plugins.zsh
+plugin-load $plugins
 source ./.config/zsh/zoxide.zsh
 source ./.config/zsh/zsh-history-substring-search.zsh
 source ./.config/zsh/zsh.zsh
