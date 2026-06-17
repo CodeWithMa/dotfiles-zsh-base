@@ -1,20 +1,21 @@
 #!/bin/zsh
 
-# declare a simple plugin-load function
 function plugin-load() {
-  local repo plugin_name plugin_dir initfile initfiles
+  local plugin_dir plugin_name initfile initfiles
   ZPLUGINDIR=${ZPLUGINDIR:-${ZDOTDIR:-$HOME/.config/zsh}/plugins}
-  for repo in $@; do
-    plugin_name=${repo:t}
-    plugin_dir=$ZPLUGINDIR/$plugin_name
+
+  for plugin_dir in $ZPLUGINDIR/*(/N); do
+    plugin_name=${plugin_dir:t}
     initfile=$plugin_dir/$plugin_name.plugin.zsh
-    if [[ ! -d $plugin_dir ]]; then
-      echo "Cloning $repo"
-      git clone -q --depth 1 --recursive --shallow-submodules https://github.com/$repo $plugin_dir
+
+    if [[ -z "$(ls -A "$plugin_dir" 2>/dev/null)" ]]; then
+      echo >&2 "Plugin '$plugin_name' is empty. Run 'git submodule update --init' in ${ZDOTDIR:-$HOME/.config/zsh}."
+      continue
     fi
+
     if [[ ! -e $initfile ]]; then
       initfiles=($plugin_dir/*.plugin.{z,}sh(N) $plugin_dir/*.{z,}sh{-theme,}(N))
-      [[ ${#initfiles[@]} -gt 0 ]] || { echo >&2 "Plugin has no init file '$repo'." && continue }
+      [[ ${#initfiles[@]} -gt 0 ]] || { echo >&2 "Plugin '$plugin_name' has no init file." && continue }
       ln -s "${initfiles[1]}" "$initfile"
     fi
     fpath+=$plugin_dir
@@ -23,19 +24,10 @@ function plugin-load() {
 }
 
 function plugin-update {
-  ZPLUGINDIR=${ZPLUGINDIR:-${ZDOTDIR:-$HOME/.config/zsh}/plugins}
-  for d in $ZPLUGINDIR/*/.git(/); do
-    echo "Updating ${d:h:t}..."
-    command git -C "${d:h}" pull --ff --recurse-submodules --depth 1 --rebase --autostash
-  done
+  local zsh_config_dir=${ZDOTDIR:-$HOME/.config/zsh}
+  command git -C "$zsh_config_dir" submodule update --remote --merge --init --recursive
+  echo "Plugins updated. Commit the new versions:"
+  echo "  git -C $zsh_config_dir add plugins/ .gitmodules && git -C $zsh_config_dir commit -m \"update plugins\""
 }
 
-# make a github repo plugins list
-plugins=(
-  molovo/tipz
-  zsh-users/zsh-autosuggestions
-  zsh-users/zsh-completions
-  zsh-users/zsh-history-substring-search
-  zsh-users/zsh-syntax-highlighting
-)
-plugin-load $plugins
+plugin-load
