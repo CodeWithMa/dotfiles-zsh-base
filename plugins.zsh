@@ -4,12 +4,12 @@ function plugin-load() {
   local plugin_dir plugin_name initfile initfiles
   ZPLUGINDIR=${ZPLUGINDIR:-${ZDOTDIR:-$HOME/.config/zsh}/plugins}
 
-  for plugin_dir in $ZPLUGINDIR/*(/N); do
-    plugin_name=${plugin_dir:t}
+  for plugin_name in "$@"; do
+    plugin_dir=$ZPLUGINDIR/$plugin_name
     initfile=$plugin_dir/$plugin_name.plugin.zsh
 
-    if [[ -z "$(ls -A "$plugin_dir" 2>/dev/null)" ]]; then
-      echo >&2 "Plugin '$plugin_name' is empty. Run 'git submodule update --init' in ${ZDOTDIR:-$HOME/.config/zsh}."
+    if [[ ! -d $plugin_dir ]]; then
+      echo >&2 "Plugin '$plugin_name' is missing. Run 'git submodule update --init' in ${ZDOTDIR:-$HOME/.config/zsh}."
       continue
     fi
 
@@ -30,4 +30,11 @@ function plugin-update {
   echo "  git -C $zsh_config_dir add plugins/ .gitmodules && git -C $zsh_config_dir commit -m \"update plugins\""
 }
 
-plugin-load
+plugins=(
+  tipz
+  zsh-autosuggestions
+  zsh-completions
+  zsh-history-substring-search
+  zsh-syntax-highlighting
+)
+plugin-load $plugins
