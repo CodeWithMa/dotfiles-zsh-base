@@ -13,6 +13,11 @@ function plugin-load() {
       continue
     fi
 
+    if [[ -z "$(ls -A "$plugin_dir" 2>/dev/null)" ]]; then
+      echo >&2 "Plugin '$plugin_name' is empty. Run 'git submodule update --init' in ${ZDOTDIR:-$HOME/.config/zsh}."
+      continue
+    fi
+
     if [[ ! -e $initfile ]]; then
       initfiles=($plugin_dir/*.plugin.{z,}sh(N) $plugin_dir/*.{z,}sh{-theme,}(N))
       [[ ${#initfiles[@]} -gt 0 ]] || { echo >&2 "Plugin '$plugin_name' has no init file." && continue }
