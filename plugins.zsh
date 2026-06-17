@@ -30,11 +30,12 @@ function plugin-update {
   echo "  git -C $zsh_config_dir add plugins/ .gitmodules && git -C $zsh_config_dir commit -m \"update plugins\""
 }
 
+# The order is important. See https://github.com/zsh-users/zsh-history-substring-search#usage
 plugins=(
   tipz
   zsh-autosuggestions
   zsh-completions
-  zsh-history-substring-search
   zsh-syntax-highlighting
+  zsh-history-substring-search
 )
 plugin-load $plugins
