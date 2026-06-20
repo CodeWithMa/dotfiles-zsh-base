@@ -1,6 +1,6 @@
 #!/bin/zsh
 
-export ZSH_CONFIG_DIR="${0:A:h}"
+export ZSH_CONFIG_DIR="${${(%):-%N}:A:h}"
 
 source "$ZSH_CONFIG_DIR/aliases.zsh"
 source "$ZSH_CONFIG_DIR/bindkeys.zsh"
