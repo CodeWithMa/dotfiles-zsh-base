@@ -2,7 +2,7 @@
 
 function plugin-load() {
   local plugin_dir plugin_name initfile initfiles
-  local ZPLUGINDIR=${ZPLUGINDIR:-$ZSH_CONFIG_DIR/plugins}
+  local ZPLUGINDIR=$ZSH_CONFIG_DIR/plugins
 
   for plugin_name in "$@"; do
     plugin_dir=$ZPLUGINDIR/$plugin_name
