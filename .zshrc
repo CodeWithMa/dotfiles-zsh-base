@@ -1,13 +1,15 @@
 #!/bin/zsh
 
-source ./.config/zsh/aliases.zsh
-source ./.config/zsh/bindkeys.zsh
-source ./.config/zsh/config-update.zsh
-source ./.config/zsh/exports.zsh
-source ./.config/zsh/history.zsh
-source ./.config/zsh/plugins.zsh
-source ./.config/zsh/zoxide.zsh
-source ./.config/zsh/zsh-history-substring-search.zsh
-source ./.config/zsh/zsh.zsh
+local zsh_config_dir="${0:A:h}"
+
+source "$zsh_config_dir/aliases.zsh"
+source "$zsh_config_dir/bindkeys.zsh"
+source "$zsh_config_dir/config-update.zsh"
+source "$zsh_config_dir/exports.zsh"
+source "$zsh_config_dir/history.zsh"
+source "$zsh_config_dir/plugins.zsh"
+source "$zsh_config_dir/zoxide.zsh"
+source "$zsh_config_dir/zsh-history-substring-search.zsh"
+source "$zsh_config_dir/zsh.zsh"
 
 eval "$(starship init zsh)"
