@@ -2,19 +2,19 @@
 
 function plugin-load() {
   local plugin_dir plugin_name initfile initfiles
-  local ZPLUGINDIR=${ZPLUGINDIR:-${ZDOTDIR:-$HOME/.config/zsh}/plugins}
+  local ZPLUGINDIR=${ZPLUGINDIR:-$ZSH_CONFIG_DIR/plugins}
 
   for plugin_name in "$@"; do
     plugin_dir=$ZPLUGINDIR/$plugin_name
     initfile=$plugin_dir/$plugin_name.plugin.zsh
 
     if [[ ! -d $plugin_dir ]]; then
-      echo >&2 "Plugin '$plugin_name' is missing. Run 'git submodule update --init' in ${ZDOTDIR:-$HOME/.config/zsh}."
+      echo >&2 "Plugin '$plugin_name' is missing. Run 'git submodule update --init' in $ZSH_CONFIG_DIR."
       continue
     fi
 
     if [[ -z "$(ls -A "$plugin_dir" 2>/dev/null)" ]]; then
-      echo >&2 "Plugin '$plugin_name' is empty. Run 'git submodule update --init' in ${ZDOTDIR:-$HOME/.config/zsh}."
+      echo >&2 "Plugin '$plugin_name' is empty. Run 'git submodule update --init' in $ZSH_CONFIG_DIR."
       continue
     fi
 
@@ -29,10 +29,9 @@ function plugin-load() {
 }
 
 function plugin-update {
-  local zsh_config_dir=${ZDOTDIR:-$HOME/.config/zsh}
-  command git -C "$zsh_config_dir" submodule update --remote --merge --init --recursive
+  command git -C "$ZSH_CONFIG_DIR" submodule update --remote --merge --init --recursive
   echo "Plugins updated. Commit the new versions:"
-  echo "  git -C $zsh_config_dir add plugins/ .gitmodules && git -C $zsh_config_dir commit -m \"update plugins\""
+  echo "  git -C $ZSH_CONFIG_DIR add plugins/ .gitmodules && git -C $ZSH_CONFIG_DIR commit -m \"update plugins\""
 }
 
 # The order is important. See https://github.com/zsh-users/zsh-history-substring-search#usage
