@@ -4,6 +4,7 @@ alias syu='sudo pacman --color auto -Syu'
 alias syuw='sudo pacman --color auto -Syuw'
 
 # shortcuts
+alias bi='beet import ./ -S'
 alias clr='clear'
 alias df='df -h'
 alias en='LANG=en_US.UTF-8'
