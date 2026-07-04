@@ -3,6 +3,7 @@
 export ZSH_CONFIG_DIR="${${(%):-%N}:A:h}"
 
 source "$ZSH_CONFIG_DIR/aliases.zsh"
+source "$ZSH_CONFIG_DIR/autostart.zsh"
 source "$ZSH_CONFIG_DIR/bindkeys.zsh"
 source "$ZSH_CONFIG_DIR/config-update.zsh"
 source "$ZSH_CONFIG_DIR/exports.zsh"
