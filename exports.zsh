@@ -11,3 +11,10 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 export SPICE_NOGRAB=1
+
+# Load secrets
+if [[ -f /var/run/secrets/"$(whoami)"-env ]]; then
+  set -a
+  source /var/run/secrets/"$(whoami)"-env
+  set +a
+fi
